@@ -6,6 +6,7 @@ import Footer from "./components/Footer";
 import Login from "./pages/Login";
 import ForgotPassword from "./components/ForgotPassword";
 import SignUp from "./pages/SignUp";
+ 
 export default function App() {
   return (
     <BrowserRouter>
