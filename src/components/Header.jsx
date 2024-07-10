@@ -7,7 +7,7 @@ import { Link, useNavigate } from "react-router-dom";
 export default function Header() {
   const navigate = useNavigate();
   return (
-    <header className="h-16 bg-zinc-800 text-white ">
+    <header className="h-16 bg-zinc-800 text-white  sticky top-0">
       <div className=" h-full container mx-auto flex items-center px-4 justify-between  ">
         <div>
           <img

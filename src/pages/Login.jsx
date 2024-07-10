@@ -27,7 +27,7 @@ export default function Login() {
 
   return (
     <section id="login">
-      <div className="mx-auto container px-4">
+      <div className="mx-auto container px-4 h-[90vh]">
         <div className="p-5 w-full bg-white max-w-md mx-auto rounded-[10px]">
           <div className="w-20 h-20 mx-auto">
             <img src={loginIcon} alt="login icon" className="rounded-full" />
