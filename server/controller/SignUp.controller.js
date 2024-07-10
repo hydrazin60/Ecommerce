@@ -22,6 +22,7 @@ export const SignUpController = async (req, res) => {
     const newUser = new UserModel({
       name,
       email,
+      role : "GENERAL",
       password: hashPassword,
     });
     await newUser.save();
