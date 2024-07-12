@@ -3,8 +3,8 @@ import bcryptjs from "bcryptjs";
 
 export const SignUpController = async (req, res) => {
   try {
-    const { name, email, password } = req.body;
-
+    const { name, email, password ,  profile } = req.body;
+ 
     if (!name || !email || !password) {
       return res.status(400).json({
         success: false,
@@ -22,6 +22,7 @@ export const SignUpController = async (req, res) => {
     const newUser = new UserModel({
       name,
       email,
+      profile,
       role : "GENERAL",
       password: hashPassword,
     });
