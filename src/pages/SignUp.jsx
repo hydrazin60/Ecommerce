@@ -36,7 +36,6 @@ export default function SignUp() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData);
     if (formData.password !== formData.confirmPassword) {
       setConfirmPasswordError("Passwords do not match");
       toast.error("Please check password and confirm password");
