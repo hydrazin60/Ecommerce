@@ -17,4 +17,8 @@ export const SummaryAPI = {
     url: `${UserBackendDomin}/logout-user`,
     method: "DELETE",
   },
-};
+  allUserList : {
+    url: `${UserBackendDomin}/all-user-list`,
+    method: "get",
+  },
+}

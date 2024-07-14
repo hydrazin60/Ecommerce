@@ -9,10 +9,25 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  @apply bg-gray-200
+  @apply bg-gray-200;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
+}
+
+.customShadow {
+  box-shadow: 0px 0px 15px reb(0, 0, 0, 0.1);
+}
+
+.AllUserListTable {
+  @apply bg-zinc-700;
+}
+
+.AllUserListTable th {
+  @apply border text-base font-medium  text-white border-red-600;
+}
+.AllUserListTable td {
+  @apply border text-base    text-white border-red-600 p-2;
 }

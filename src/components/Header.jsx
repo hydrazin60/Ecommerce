@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { FaSearch, FaUserCircle } from "react-icons/fa";
 import { FaCartShopping } from "react-icons/fa6";
 import { Link, useNavigate } from "react-router-dom";
@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 import { setUserDetails } from "../redux/store/userSlice";
 
 export default function Header() {
+  const [menuDisplay, setmenuDisplay] = useState(false);
   const user = useSelector((state) => state?.user?.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -19,7 +20,6 @@ export default function Header() {
     if (!confirmed) {
       return;
     }
-
     try {
       const response = await fetch(SummaryAPI.logout_user.url, {
         method: SummaryAPI.logout_user.method,
@@ -69,14 +69,32 @@ export default function Header() {
           </div>
         </div>
         <div className="flex items-center gap-7">
-          <div className="text-4xl cursor-pointer">
-            {user?.profile ? (
-              <img
-                src={user?.profile}
-                className="w-12 h-12 rounded-full border-2 border-green-400 hover:border-yellow-400"
-              />
-            ) : (
-              <FaUserCircle />
+          <div
+            className="relative group flex justify-center "
+            onClick={() => setmenuDisplay(!menuDisplay)}
+          >
+            <div className="text-4xl cursor-pointer">
+              {user?.profile ? (
+                <img
+                  src={user?.profile}
+                  className="w-12 h-12 rounded-full border-2 border-green-400 hover:border-yellow-400"
+                />
+              ) : (
+                <FaUserCircle />
+              )}
+            </div>
+
+            {menuDisplay && (
+              <div className="absolute bg-zinc-300 top-12 h-14 w-32 p-4 text-black shadow-lg rounded     group-hover:block ">
+                <nav>
+                  <Link
+                    to="/admain-panel"
+                    className="whitespace-normal hover:bg-zinc-200 hover:underline  hover:pt-2 "
+                  >
+                    Admin-Panel
+                  </Link>
+                </nav>
+              </div>
             )}
           </div>
           <div className="text-2xl relative cursor-pointer">
