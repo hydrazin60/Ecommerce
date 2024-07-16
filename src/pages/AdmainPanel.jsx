@@ -1,16 +1,24 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaRegCircleUser } from "react-icons/fa6";
 import { useSelector } from "react-redux";
 import "../index.css";
 import AllUser from "./AllUser";
 import AllProducts from "./AllProducts";
+import { useNavigate } from "react-router-dom";
+import ROLE from "../helper/ROLE";
 
 export default function AdminPanel() {
   const user = useSelector((state) => state?.user?.user);
-  const [activeComponent, setActiveComponent] = useState("allUsers");
+  const [activeComponent, setActiveComponent] = useState("allProducts");
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (user?.role !== ROLE.ADMAIN) {
+      navigate("/");
+    }
+  }, [user]);
 
   return (
-    <div className="min-h-[calc(100vh-120px)] flex">
+    <div className="min-h-[calc(100vh-120px)] flex  ">
       <aside className="bg-white h-full w-60 customShadow fixed top-16 left-0">
         <div className="h-40 flex justify-center items-center flex-col">
           <div className="text-5xl cursor-pointer relative flex justify-center">
@@ -18,6 +26,7 @@ export default function AdminPanel() {
               <img
                 src={user?.profile}
                 className="w-20 h-20 rounded-full border-2 border-green-400"
+                alt="user PP"
               />
             ) : (
               <FaRegCircleUser />
@@ -30,16 +39,16 @@ export default function AdminPanel() {
         <div>
           <nav className="grid p-4">
             <button
-              onClick={() => setActiveComponent("allUsers")}
-              className="px-2 py-1 hover:bg-slate-100 text-left"
-            >
-              All Users
-            </button>
-            <button
               onClick={() => setActiveComponent("allProducts")}
               className="px-2 py-1 hover:bg-slate-100 text-left"
             >
               All Products
+            </button>
+            <button
+              onClick={() => setActiveComponent("allUsers")}
+              className="px-2 py-1 hover:bg-slate-100 text-left"
+            >
+              All Users
             </button>
           </nav>
         </div>

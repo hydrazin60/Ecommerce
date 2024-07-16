@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { SummaryAPI } from "../utils/SummaryAPI";
 import { toast } from "react-toastify";
 import { setUserDetails } from "../redux/store/userSlice";
+import ROLE from "../helper/ROLE";
 
 export default function Header() {
   const [menuDisplay, setmenuDisplay] = useState(false);
@@ -73,26 +74,31 @@ export default function Header() {
             className="relative group flex justify-center "
             onClick={() => setmenuDisplay(!menuDisplay)}
           >
-            <div className="text-4xl cursor-pointer">
-              {user?.profile ? (
-                <img
-                  src={user?.profile}
-                  className="w-12 h-12 rounded-full border-2 border-green-400 hover:border-yellow-400"
-                />
-              ) : (
-                <FaUserCircle />
-              )}
-            </div>
+            {user?._id && (
+              <div className="text-4xl cursor-pointer">
+                {user?.profile ? (
+                  <img
+                    src={user?.profile}
+                    className="w-12 h-12 rounded-full border-2 border-green-400 hover:border-yellow-400"
+                    alt="user PP"
+                  />
+                ) : (
+                  <FaUserCircle />
+                )}
+              </div>
+            )}
 
             {menuDisplay && (
               <div className="absolute bg-zinc-300 top-12 h-14 w-32 p-4 text-black shadow-lg rounded     group-hover:block ">
                 <nav>
-                  <Link
-                    to="/admain-panel"
-                    className="whitespace-normal hover:bg-zinc-200 hover:underline  hover:pt-2 "
-                  >
-                    Admin-Panel
-                  </Link>
+                  {user?.role === ROLE.ADMAIN && (
+                    <Link
+                      to="/admain-panel"
+                      className="whitespace-normal hover:bg-zinc-200 hover:underline  hover:pt-2 "
+                    >
+                      Admin-Panel
+                    </Link>
+                  )}
                 </nav>
               </div>
             )}
