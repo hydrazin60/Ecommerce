@@ -17,7 +17,11 @@ const UserSchema = new mongoose.Schema(
     profile: {
       type: String,
     },
-    role: { type: String },
+    role: {
+      type: String,
+      default: "GENERAL",
+      enum: ["ADMAIN", "MODERATOR", "GENERAL"],
+    },
   },
   { timestamps: true }
 );
