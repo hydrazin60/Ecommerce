@@ -12,8 +12,8 @@ const app = express();
 const PORT = process.env.PORT || 4000;
 
 const corsOptions = {
-  origin: "http://localhost:3000", 
-  credentials: true,  
+  origin: "http://localhost:3000",
+  credentials: true,
 };
 
 app.use(cors(corsOptions));
@@ -21,7 +21,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.use("/api/v1/users", router);
-app.use("/api/v1/product", routeProduct); // Ensure this is /product not /produc
+app.use("/api/v1/product", routeProduct);  
 
 mongoose
   .connect(process.env.MONGODBURI, {
@@ -38,8 +38,6 @@ mongoose
     console.log("Database error:", err);
   });
 
-
-
 // import express from "express";
 // import cors from "cors";
 // import dotenv from "dotenv";
@@ -53,10 +51,9 @@ mongoose
 // const app = express();
 // const PORT = process.env.PORT || 4000;
 
- 
 // const corsOptions = {
-//   origin: "http://localhost:3000", 
-//   credentials: true,  
+//   origin: "http://localhost:3000",
+//   credentials: true,
 // };
 
 // app.use(cors(corsOptions));
@@ -79,5 +76,3 @@ mongoose
 //   .catch((err) => {
 //     console.log("Database error:", err);
 //   });
-
- 

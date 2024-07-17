@@ -17,5 +17,3 @@ export const UploadProductController = async (req, res) => {
     });
   }
 };
-
- 
