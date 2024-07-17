@@ -5,6 +5,7 @@ import { FaCloudUploadAlt } from "react-icons/fa";
 import { UploadImage } from "../helper/UploadImage";
 import DisplayImage from "./DisplayImage";
 import { MdDelete } from "react-icons/md";
+import { toast } from "react-toastify";
 
 export default function UploadProduct({ onClose }) {
   const [data, setData] = useState({
@@ -51,6 +52,29 @@ export default function UploadProduct({ onClose }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const {
+      productName,
+      brandName,
+      category,
+      productImage,
+      description,
+      price,
+      selling,
+    } = data;
+
+    if (
+      !productName ||
+      !brandName ||
+      !category ||
+      !productImage.length ||
+      !description ||
+      !price ||
+      !selling
+    ) {
+      toast.error("All fields are required");
+      return;
+    }
+
     console.log("Form submitted", data);
   };
 
@@ -78,6 +102,7 @@ export default function UploadProduct({ onClose }) {
             value={data.productName}
             onChange={handleChange}
             className="p-2 bg-slate-100 border rounded placeholder-gray-500"
+            required
           />
 
           <label htmlFor="brandName">Brand Name:</label>
@@ -88,6 +113,7 @@ export default function UploadProduct({ onClose }) {
             value={data.brandName}
             onChange={handleChange}
             className="p-2 bg-slate-100 border rounded placeholder-gray-500"
+            required
           />
 
           <label htmlFor="category">Category:</label>
@@ -96,6 +122,7 @@ export default function UploadProduct({ onClose }) {
             value={data.category}
             onChange={handleChange}
             className="p-2 bg-slate-100 border rounded"
+            required
           >
             <option value="" disabled>
               Select category
@@ -121,6 +148,7 @@ export default function UploadProduct({ onClose }) {
                   className="hidden"
                   multiple
                   onChange={handleUploadProduct}
+                  required
                 />
               </div>
             </div>
@@ -128,7 +156,7 @@ export default function UploadProduct({ onClose }) {
           <div className="flex flex-wrap gap-3">
             {imagePreview.length > 0 ? (
               imagePreview.map((preview, index) => (
-                <div key={index} className="relative">
+                <div key={index} className="relative cursor-pointer">
                   <img
                     src={preview}
                     alt="Product Preview"
@@ -157,8 +185,8 @@ export default function UploadProduct({ onClose }) {
             value={data.description}
             onChange={handleChange}
             className="p-2 bg-slate-100 border rounded placeholder-gray-500 h-20"
+            required
           />
-
           <label htmlFor="price">Price:</label>
           <input
             type="number"
@@ -167,8 +195,8 @@ export default function UploadProduct({ onClose }) {
             value={data.price}
             onChange={handleChange}
             className="p-2 bg-slate-100 border rounded placeholder-gray-500"
+            required
           />
-
           <label htmlFor="selling">Selling Price:</label>
           <input
             type="number"
@@ -177,8 +205,8 @@ export default function UploadProduct({ onClose }) {
             value={data.selling}
             onChange={handleChange}
             className="p-2 bg-slate-100 border rounded placeholder-gray-500"
+            required
           />
-
           <button
             type="submit"
             className="px-3 py-2 mb-6 bg-blue-500 text-white rounded"
