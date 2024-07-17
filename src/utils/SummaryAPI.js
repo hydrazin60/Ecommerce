@@ -1,5 +1,5 @@
 const UserBackendDomain = "http://localhost:4000/api/v1/users/";
-
+const ProductBackendDomain = "http://localhost:4000/api/v1/product";
 export const SummaryAPI = {
   signUP: {
     url: `${UserBackendDomain}sign-up`,
@@ -25,33 +25,8 @@ export const SummaryAPI = {
     url: `${UserBackendDomain}/update-user`,
     method: "put",
   },
+  uploadproduct: {
+    url: `${ProductBackendDomain}/upload-product`,
+    method: "post",
+  },
 };
-
-// const UserBackendDomin = "http://localhost:4000/api/v1/users/";
-
-// export const SummaryAPI = {
-//   signUP: {
-//     url: `${UserBackendDomin}sign-up`,
-//     method: "post",
-//   },
-//   signIn: {
-//     url: `${UserBackendDomin}/sign-in`,
-//     method: "post",
-//   },
-//   getCurrentUserdetails: {
-//     url: `${UserBackendDomin}/user-details`,
-//     method: "get",
-//   },
-//   logout_user: {
-//     url: `${UserBackendDomin}/logout-user`,
-//     method: "DELETE",
-//   },
-//   allUserList: {
-//     url: `${UserBackendDomin}/all-user-list`,
-//     method: "get",
-//   },
-//   updateUser: {
-//     url: `${UserBackendDomin}/update-user`,
-//     method: "post",
-//   },
-// };

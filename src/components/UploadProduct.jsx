@@ -6,6 +6,7 @@ import { UploadImage } from "../helper/UploadImage";
 import DisplayImage from "./DisplayImage";
 import { MdDelete } from "react-icons/md";
 import { toast } from "react-toastify";
+import { SummaryAPI } from "../utils/SummaryAPI";
 
 export default function UploadProduct({ onClose }) {
   const [data, setData] = useState({
@@ -20,26 +21,35 @@ export default function UploadProduct({ onClose }) {
 
   const [imagePreview, setImagePreview] = useState([]);
   const [fullImage, setFullImage] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     setData({ ...data, [e.target.id]: e.target.value });
   };
 
   const handleUploadProduct = async (e) => {
+    setLoading(true);
     const files = Array.from(e.target.files);
     const previews = files.map((file) => URL.createObjectURL(file));
 
     setImagePreview([...imagePreview, ...previews]);
 
-    const uploadPromises = files.map((file) => UploadImage(file));
-    const uploadResults = await Promise.all(uploadPromises);
+    try {
+      const uploadPromises = files.map((file) => UploadImage(file));
+      const uploadResults = await Promise.all(uploadPromises);
 
-    const imageUrls = uploadResults.map((result) => result.secure_url);
+      const imageUrls = uploadResults.map((result) => result.secure_url);
 
-    setData((prevState) => ({
-      ...prevState,
-      productImage: [...prevState.productImage, ...imageUrls],
-    }));
+      setData((prevState) => ({
+        ...prevState,
+        productImage: [...prevState.productImage, ...imageUrls],
+      }));
+
+      previews.forEach((preview) => URL.revokeObjectURL(preview));
+    } catch (error) {
+      toast.error("Failed to upload images. Please try again.");
+    }
+    setLoading(false);
   };
 
   const handleDeleteImage = (index) => {
@@ -50,32 +60,42 @@ export default function UploadProduct({ onClose }) {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const {
-      productName,
-      brandName,
-      category,
-      productImage,
-      description,
-      price,
-      selling,
-    } = data;
+    setLoading(true);
 
-    if (
-      !productName ||
-      !brandName ||
-      !category ||
-      !productImage.length ||
-      !description ||
-      !price ||
-      !selling
-    ) {
-      toast.error("All fields are required");
-      return;
+    try {
+      const response = await fetch(SummaryAPI.uploadproduct.url, {
+        method: SummaryAPI.uploadproduct.method,
+        credentials: "include",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+
+      const responseData = await response.json();
+
+      if (responseData.success) {
+        toast.success(responseData.message);
+        setData({
+          productName: "",
+          brandName: "",
+          category: "",
+          productImage: [],
+          description: "",
+          price: "",
+          selling: "",
+        });
+        setImagePreview([]);
+      } else if (responseData.error) {
+        toast.error(responseData.message);
+      }
+    } catch (error) {
+      toast.error("An error occurred. Please try again.");
     }
 
-    console.log("Form submitted", data);
+    setLoading(false);
   };
 
   return (
@@ -166,7 +186,7 @@ export default function UploadProduct({ onClose }) {
                     onClick={() => setFullImage(preview)}
                   />
                   <div
-                    className=" absolute bottom-0 right-0 p-1 text-white bg-red-600 rounded-full "
+                    className="absolute bottom-0 right-0 p-1 text-white bg-red-600 rounded-full"
                     onClick={() => handleDeleteImage(index)}
                   >
                     <MdDelete />
@@ -210,8 +230,9 @@ export default function UploadProduct({ onClose }) {
           <button
             type="submit"
             className="px-3 py-2 mb-6 bg-blue-500 text-white rounded"
+            disabled={loading}
           >
-            Submit
+            {loading ? "Submitting..." : "Submit"}
           </button>
         </form>
       </div>
@@ -222,5 +243,8 @@ export default function UploadProduct({ onClose }) {
     </div>
   );
 }
+
+
+
 
  
