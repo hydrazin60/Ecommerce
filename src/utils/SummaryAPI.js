@@ -29,4 +29,8 @@ export const SummaryAPI = {
     url: `${ProductBackendDomain}/upload-product`,
     method: "post",
   },
+  getallproduct: {
+    url: `${ProductBackendDomain}/get-product`,
+    method: "get",
+  },
 };
