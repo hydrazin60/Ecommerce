@@ -5,17 +5,17 @@ import { CiEdit } from "react-icons/ci";
 import AdminEditProductcomponent from "../components/AdminEditProductcomponent";
 
 export default function AllProducts() {
-  const [uploadproductcomponent, setuploadproductcomponent] = useState(false);
-  const [allProduct, setAllProduct] = useState([]);
+  const [uploadProductComponent, setUploadProductComponent] = useState(false);
+  const [allProducts, setAllProducts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [editProduct, setEditProduct] = useState(null);
 
   const handleClose = () => {
-    setuploadproductcomponent(false);
+    setUploadProductComponent(false);
   };
 
-  const fetchAllProduct = async () => {
+  const fetchAllProducts = async () => {
     setLoading(true);
     try {
       const response = await fetch(SummaryAPI.getallproduct.url, {
@@ -28,7 +28,7 @@ export default function AllProducts() {
       }
 
       const dataResponse = await response.json();
-      setAllProduct(dataResponse.data || []);
+      setAllProducts(dataResponse.data || []);
     } catch (error) {
       console.error("Error fetching products:", error.message);
       setError(error.message);
@@ -38,19 +38,26 @@ export default function AllProducts() {
   };
 
   useEffect(() => {
-    fetchAllProduct();
+    fetchAllProducts();
   }, []);
+
+  const handleEditProduct = (product) => {
+    setEditProduct(product);
+  };
 
   return (
     <div>
       <div className="bg-white py-2 px-4 flex justify-between items-center">
         <h2 className="font-bold text-lg">All Products</h2>
         <button
-          onClick={() => setuploadproductcomponent(!uploadproductcomponent)}
+          onClick={() => setUploadProductComponent(!uploadProductComponent)}
           className="border-2 py-1 border-red-600 text-red-600 hover:bg-red-600 font-semibold hover:text-white transition-all px-4 rounded-full"
         >
           Upload Product
         </button>
+      </div>
+      <div className=" w-full max-h-48 ">
+        <img src="topphoto.jpg" alt="topphoto" />
       </div>
 
       {loading ? (
@@ -58,28 +65,37 @@ export default function AllProducts() {
       ) : error ? (
         <p>Error: {error}</p>
       ) : (
-        <div className="  flex items-center gap-4 py-4 flex-wrap ">
-          {allProduct.length > 0 ? (
-            allProduct.map((product, index) => (
-              <div
-                key={index}
-                className="relative p-4 bg-white rounded hover:shadow-lg transition-shadow cursor-pointer"
-                onClick={() => setEditProduct(product)}
-              >
-                <div className="absolute top-2 right-2 w-9 p-2 bg-green-200 text-black text-xl hover:bg-green-700 rounded-full hover:text-white">
-                  <CiEdit />
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-4 bg-pink-300 pt-3">
+          {allProducts.length > 0 ? (
+            allProducts.map((product, index) => (
+              <div key={index} className="p-2 bg-white rounded-lg shadow-md   ">
+                <div className="  ">
+                  <div
+                    className="w-9 h-9 p-2 bg-green-200 text-black text-xl hover:bg-green-700 rounded-full hover:text-white flex justify-center items-center cursor-pointer h-42"
+                    onClick={() => handleEditProduct(product)}
+                  >
+                    <CiEdit />
+                  </div>
                 </div>
+
                 <img
                   src={product?.productImage[0]}
-                  width={120}
-                  height={120}
                   alt="Product"
                   className="object-cover"
                 />
-                <div>
-                  <h3 className="font-bold">{product.productName}</h3>
-                  <p>Price: ${product.price}</p>
-                  <p>Selling Price: ${product.selling}</p>
+
+                <div className="mt-2">
+                  <h3 className="font-bold text-base truncate">
+                    {product.productName}
+                  </h3>
+                  <p className="text-sm font-bold">Price: रु{product.price}</p>
+
+                  <p className="text-ellipsis line-clamp-2">
+                    {product.description}{" "}
+                  </p>
+                  <p className="text-sm font-bold">
+                    Selling Price: रु{product.selling}
+                  </p>
                 </div>
               </div>
             ))
@@ -89,7 +105,7 @@ export default function AllProducts() {
         </div>
       )}
 
-      {uploadproductcomponent && <UploadProduct onClose={handleClose} />}
+      {uploadProductComponent && <UploadProduct onClose={handleClose} />}
       {editProduct && (
         <AdminEditProductcomponent
           product={editProduct}
@@ -100,24 +116,24 @@ export default function AllProducts() {
   );
 }
 
-
-
 // import React, { useEffect, useState } from "react";
 // import UploadProduct from "../components/UploadProduct";
 // import { SummaryAPI } from "../utils/SummaryAPI";
 // import { CiEdit } from "react-icons/ci";
+// import AdminEditProductcomponent from "../components/AdminEditProductcomponent";
 
 // export default function AllProducts() {
-//   const [uploadproductcomponent, setuploadproductcomponent] = useState(false);
-//   const [allProduct, setAllProduct] = useState([]);
+//   const [uploadProductComponent, setUploadProductComponent] = useState(false);
+//   const [allProducts, setAllProducts] = useState([]);
 //   const [loading, setLoading] = useState(false);
 //   const [error, setError] = useState(null);
+//   const [editProduct, setEditProduct] = useState(null);
 
 //   const handleClose = () => {
-//     setuploadproductcomponent(false);
+//     setUploadProductComponent(false);
 //   };
 
-//   const fetchAllProduct = async () => {
+//   const fetchAllProducts = async () => {
 //     setLoading(true);
 //     try {
 //       const response = await fetch(SummaryAPI.getallproduct.url, {
@@ -130,7 +146,7 @@ export default function AllProducts() {
 //       }
 
 //       const dataResponse = await response.json();
-//       setAllProduct(dataResponse.data || []);
+//       setAllProducts(dataResponse.data || []);
 //     } catch (error) {
 //       console.error("Error fetching products:", error.message);
 //       setError(error.message);
@@ -140,7 +156,7 @@ export default function AllProducts() {
 //   };
 
 //   useEffect(() => {
-//     fetchAllProduct();
+//     fetchAllProducts();
 //   }, []);
 
 //   return (
@@ -148,7 +164,7 @@ export default function AllProducts() {
 //       <div className="bg-white py-2 px-4 flex justify-between items-center">
 //         <h2 className="font-bold text-lg">All Products</h2>
 //         <button
-//           onClick={() => setuploadproductcomponent(!uploadproductcomponent)}
+//           onClick={() => setUploadProductComponent(!uploadProductComponent)}
 //           className="border-2 py-1 border-red-600 text-red-600 hover:bg-red-600 font-semibold hover:text-white transition-all px-4 rounded-full"
 //         >
 //           Upload Product
@@ -160,11 +176,15 @@ export default function AllProducts() {
 //       ) : error ? (
 //         <p>Error: {error}</p>
 //       ) : (
-//         <div className="flex items-center gap-4 py-4 flex-wrap">
-//           {allProduct.length > 0 ? (
-//             allProduct.map((product, index) => (
-//               <div key={index} className="p-4 bg-white rounded ">
-//                 <div className="w-9 ml-auto p-2 bg-green-200 text-black text-xl hover:bg-green-700 rounded-full hover:text-white">
+//         <div className="flex flex-wrap gap-4 mt-4">
+//           {allProducts.length > 0 ? (
+//             allProducts.map((product, index) => (
+//               <div
+//                 key={index}
+//                 className="  p-4 bg-white rounded hover:shadow-lg transition-shadow cursor-pointer w-64"
+//                 onClick={() => setEditProduct(product)}
+//               >
+//                 <div className="  w-9 p-2 bg-green-200 text-black text-xl hover:bg-green-700 rounded-full hover:text-white">
 //                   <CiEdit />
 //                 </div>
 //                 <img
@@ -172,12 +192,14 @@ export default function AllProducts() {
 //                   width={120}
 //                   height={120}
 //                   alt="Product"
-//                   className=" object-cover"
+//                   className="object-cover"
 //                 />
-//                 <div>
-//                   <h3 className="font-bold">{product.productName}</h3>
-//                   <p>Price: ${product.price}</p>
-//                   <p>Selling Price: ${product.selling}</p>
+//                 <div className="mt-2">
+//                   <h3 className="font-bold text-sm truncate">
+//                     {product.productName}
+//                   </h3>
+//                   <p className="text-sm">Price: ${product.price}</p>
+//                   <p className="text-sm">Selling Price: ${product.selling}</p>
 //                 </div>
 //               </div>
 //             ))
@@ -187,7 +209,13 @@ export default function AllProducts() {
 //         </div>
 //       )}
 
-//       {uploadproductcomponent && <UploadProduct onClose={handleClose} />}
+//       {uploadProductComponent && <UploadProduct onClose={handleClose} />}
+//       {editProduct && (
+//         <AdminEditProductcomponent
+//           product={editProduct}
+//           onClose={() => setEditProduct(null)}
+//         />
+//       )}
 //     </div>
 //   );
 // }

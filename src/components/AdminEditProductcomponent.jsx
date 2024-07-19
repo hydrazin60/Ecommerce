@@ -39,7 +39,11 @@ export default function AdminEditProductcomponent({ product, onClose }) {
   }, [product]);
 
   const handleChange = (e) => {
-    setData({ ...data, [e.target.id]: e.target.value });
+    const { id, value } = e.target;
+    setData((prevData) => ({
+      ...prevData,
+      [id]: value,
+    }));
   };
 
   const handleUploadProduct = async (e) => {
@@ -80,11 +84,12 @@ export default function AdminEditProductcomponent({ product, onClose }) {
     setLoading(true);
 
     try {
+      const token = localStorage.getItem("accessToken");  
       const response = await fetch(SummaryAPI.updateProduct.url, {
         method: SummaryAPI.updateProduct.method,
-        credentials: "include",
         headers: {
-          "content-type": "application/json",
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(data),
       });
@@ -174,7 +179,6 @@ export default function AdminEditProductcomponent({ product, onClose }) {
                   className="hidden"
                   multiple
                   onChange={handleUploadProduct}
-                  required
                 />
               </div>
             </div>

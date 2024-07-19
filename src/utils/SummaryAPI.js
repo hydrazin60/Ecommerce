@@ -33,4 +33,8 @@ export const SummaryAPI = {
     url: `${ProductBackendDomain}/get-product`,
     method: "get",
   },
+  updateProduct: {
+    url: `${ProductBackendDomain}/update-product`,
+    method: "put",
+  },
 };
