@@ -14,6 +14,7 @@ import { setUserDetails } from "./redux/store/userSlice";
 import AdmainPanel from "./pages/AdmainPanel";
 import AllUser from "./pages/AllUser";
 import AllProducts from "./pages/AllProducts";
+import ProductCategory from "./pages/ProductCategory";
 
 export default function App() {
   const [user, setUser] = useState(null);
@@ -56,8 +57,8 @@ export default function App() {
           <Route path="/admain-panel" element={<AdmainPanel />} />
           <Route path="/all-users" element={<AllUser />} />
           <Route path="/all-products" element={<AllProducts />} />
+          <Route path="/product_category_page/:categoryName" element={<ProductCategory />} />
         </Routes>
-         
       </BrowserRouter>
     </Context.Provider>
   );
