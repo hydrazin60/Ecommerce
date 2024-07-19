@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import Header from "./components/Header";
-import Footer from "./components/Footer";
+//import Footer from "./components/Footer";
 import Login from "./pages/Login";
 import ForgotPassword from "./components/ForgotPassword";
 import SignUp from "./pages/SignUp";
@@ -57,7 +57,7 @@ export default function App() {
           <Route path="/all-users" element={<AllUser />} />
           <Route path="/all-products" element={<AllProducts />} />
         </Routes>
-        <Footer />
+         
       </BrowserRouter>
     </Context.Provider>
   );
