@@ -26,7 +26,8 @@ async function authToken(req, res, next) {
           message: "Invalid token",
         });
       }
-      req.user = decoded;
+     req.user = decoded
+
       next();
     });
   } catch (err) {
@@ -38,3 +39,4 @@ async function authToken(req, res, next) {
 }
 
 export default authToken;
+ 

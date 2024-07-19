@@ -17,3 +17,35 @@ export const UploadProductController = async (req, res) => {
     });
   }
 };
+export const UpdateProductController = async (req, res) => {
+  const { productId } = req.params;
+
+  try {
+    const updatedProduct = await ProductModel.findByIdAndUpdate(
+      productId,
+      req.body,
+      { new: true }
+    );
+
+    if (!updatedProduct) {
+      return res.status(404).json({
+        message: "Product not found",
+        error: true,
+        success: false,
+      });
+    }
+
+    res.status(200).json({
+      message: "Product updated successfully",
+      error: false,
+      success: true,
+      data: updatedProduct,
+    });
+  } catch (err) {
+    res.status(400).json({
+      message: err.message || err,
+      error: true,
+      success: false,
+    });
+  }
+};
