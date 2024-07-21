@@ -41,7 +41,7 @@ export default function ProductCategoryPage() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-between px-3 md:px-6 gap-4 overflow-hidden">
+      <div className="flex items-center justify-between px-3 md:px-6 gap-4 overflow-hidden ">
         {categoryLoading.map((_, index) => (
           <div
             key={index}
@@ -61,15 +61,15 @@ export default function ProductCategoryPage() {
   }
 
   return (
-    <div className="container mx-auto   ">
-      <div className="flex items-center gap-5 overflow-scroll scrollbar-none">
+    <div className="container mx-auto shadow-md md:mt-6  ">
+      <div className="flex items-center gap-10 overflow-scroll scrollbar-none  ">
         {productCategories.map((product, index) => (
           <Link
             to={"/product_category_page/" + product?.category}
             key={index}
             className="relative group"
           >
-            <div className="cursor-pointer h-16 md:w-20 md:h-20 rounded-xl overflow-hidden p-1 md:p-3 bg-white items-center justify-center shadow-md block relative transition-transform transform group-hover:scale-150">
+            <div className="cursor-pointer h-16 md:w-24 md:h-24 rounded-xl overflow-hidden p-1 md:p-3 bg-white items-center justify-center shadow-md block relative transition-transform transform group-hover:scale-150">
               <img
                 src={
                   product.productImage && product.productImage.length > 0
