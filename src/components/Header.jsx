@@ -1,3 +1,139 @@
+import React, { useState } from "react";
+import { FaSearch, FaUserCircle } from "react-icons/fa";
+import { FaCartShopping } from "react-icons/fa6";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { SummaryAPI } from "../utils/SummaryAPI";
+import { toast } from "react-toastify";
+import { setUserDetails } from "../redux/store/userSlice";
+import ROLE from "../helper/ROLE";
+import BannerProduct from "./BannerProduct"; // Import BannerProduct component
+
+export default function Header() {
+  const [menuDisplay, setmenuDisplay] = useState(false);
+  const user = useSelector((state) => state?.user?.user);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    const confirmed = window.confirm("Are you sure you want to logout?");
+    if (!confirmed) {
+      return;
+    }
+    try {
+      const response = await fetch(SummaryAPI.logout_user.url, {
+        method: SummaryAPI.logout_user.method,
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+
+      if (data.success) {
+        toast.success(data.message);
+        dispatch(setUserDetails(null));
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      console.error("Failed to fetch:", error);
+      toast.error("Failed to logout. Please try again.");
+    }
+  };
+
+  return (
+    <header className="h-auto bg-zinc-800 text-white sticky top-0 z-50">
+      <div className="container mx-auto flex items-center px-4 justify-between py-4">
+        <div>
+          <img
+            src="logo.png"
+            className="h-[60px] rounded-full cursor-pointer"
+            alt="logo"
+            onClick={() => navigate("/")}
+          />
+        </div>
+        <div className="hidden lg:flex items-center w-full justify-between max-w-screen-sm border rounded-full focus-within:shadow">
+          <input
+            type="text"
+            placeholder="search.."
+            className="w-full outline-yellow-400 h-10 border rounded-l-full pl-4 text-black"
+          />
+          <div className="text-lg h-10 min-w-[50px] bg-red-800 flex items-center justify-center rounded-r-full text-white">
+            <FaSearch />
+          </div>
+        </div>
+        <div className="flex items-center gap-7">
+          <div
+            className="relative group flex justify-center "
+            onClick={() => setmenuDisplay(!menuDisplay)}
+          >
+            {user?._id && (
+              <div className="text-4xl cursor-pointer">
+                {user?.profile ? (
+                  <img
+                    src={user?.profile}
+                    className="w-12 h-12 rounded-full border-2 border-green-400 hover:border-yellow-400"
+                    alt="user PP"
+                  />
+                ) : (
+                  <FaUserCircle />
+                )}
+              </div>
+            )}
+
+            {menuDisplay && (
+              <div className="absolute bg-zinc-300 top-12 h-14 w-32 p-4 text-black shadow-lg rounded group-hover:block">
+                <nav>
+                  {user?.role === ROLE.ADMAIN && (
+                    <Link
+                      to="/admain-panel"
+                      className="whitespace-normal hover:bg-zinc-200 hover:underline hover:pt-2"
+                    >
+                      Admin-Panel
+                    </Link>
+                  )}
+                </nav>
+              </div>
+            )}
+          </div>
+          <div className="text-2xl relative cursor-pointer">
+            <span>
+              <FaCartShopping />
+            </span>
+            <div className="bg-red-600 text-wrap w-5 h-5 rounded-full p-2 pr-3 flex items-center justify-center absolute -top-3 -right-2">
+              <p className="text-base">14</p>
+            </div>
+          </div>
+          <div>
+            {user?._id ? (
+              <button
+                onClick={handleLogout}
+                className="px-3 py-1 font-bold rounded-full hover:bg-red-700 bg-red-500"
+              >
+                Logout
+              </button>
+            ) : (
+              <Link
+                to="/login"
+                className="px-3 py-1 font-bold rounded-full hover:bg-red-700 bg-red-500"
+              >
+                Login
+              </Link>
+            )}
+          </div>
+        </div>
+      </div>
+      {/* <BannerProduct />  Include BannerProduct component */}
+    </header>
+  );
+}
+
 // import React, { useState } from "react";
 // import { FaSearch, FaUserCircle } from "react-icons/fa";
 // import { FaCartShopping } from "react-icons/fa6";
@@ -221,143 +357,3 @@
 //     </header>
 //   );
 // }
-
-
-
-
-
-import React, { useState } from "react";
-import { FaSearch, FaUserCircle } from "react-icons/fa";
-import { FaCartShopping } from "react-icons/fa6";
-import { Link, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { SummaryAPI } from "../utils/SummaryAPI";
-import { toast } from "react-toastify";
-import { setUserDetails } from "../redux/store/userSlice";
-import ROLE from "../helper/ROLE";
-import BannerProduct from "./BannerProduct";  // Import BannerProduct component
-
-export default function Header() {
-  const [menuDisplay, setmenuDisplay] = useState(false);
-  const user = useSelector((state) => state?.user?.user);
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-
-  const handleLogout = async () => {
-    const confirmed = window.confirm("Are you sure you want to logout?");
-    if (!confirmed) {
-      return;
-    }
-    try {
-      const response = await fetch(SummaryAPI.logout_user.url, {
-        method: SummaryAPI.logout_user.method,
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const data = await response.json();
-
-      if (data.success) {
-        toast.success(data.message);
-        dispatch(setUserDetails(null));
-      } else {
-        toast.error(data.message);
-      }
-    } catch (error) {
-      console.error("Failed to fetch:", error);
-      toast.error("Failed to logout. Please try again.");
-    }
-  };
-
-  return (
-    <header className="h-auto bg-zinc-800 text-white sticky top-0 z-50">
-      <div className="container mx-auto flex items-center px-4 justify-between py-4">
-        <div>
-          <img
-            src="logo.png"
-            className="h-[60px] rounded-full cursor-pointer"
-            alt="logo"
-            onClick={() => navigate("/")}
-          />
-        </div>
-        <div className="hidden lg:flex items-center w-full justify-between max-w-screen-sm border rounded-full focus-within:shadow">
-          <input
-            type="text"
-            placeholder="search.."
-            className="w-full outline-yellow-400 h-10 border rounded-l-full pl-4 text-black"
-          />
-          <div className="text-lg h-10 min-w-[50px] bg-red-800 flex items-center justify-center rounded-r-full text-white">
-            <FaSearch />
-          </div>
-        </div>
-        <div className="flex items-center gap-7">
-          <div
-            className="relative group flex justify-center "
-            onClick={() => setmenuDisplay(!menuDisplay)}
-          >
-            {user?._id && (
-              <div className="text-4xl cursor-pointer">
-                {user?.profile ? (
-                  <img
-                    src={user?.profile}
-                    className="w-12 h-12 rounded-full border-2 border-green-400 hover:border-yellow-400"
-                    alt="user PP"
-                  />
-                ) : (
-                  <FaUserCircle />
-                )}
-              </div>
-            )}
-
-            {menuDisplay && (
-              <div className="absolute bg-zinc-300 top-12 h-14 w-32 p-4 text-black shadow-lg rounded group-hover:block">
-                <nav>
-                  {user?.role === ROLE.ADMAIN && (
-                    <Link
-                      to="/admain-panel"
-                      className="whitespace-normal hover:bg-zinc-200 hover:underline hover:pt-2"
-                    >
-                      Admin-Panel
-                    </Link>
-                  )}
-                </nav>
-              </div>
-            )}
-          </div>
-          <div className="text-2xl relative cursor-pointer">
-            <span>
-              <FaCartShopping />
-            </span>
-            <div className="bg-red-600 text-wrap w-5 h-5 rounded-full p-2 pr-3 flex items-center justify-center absolute -top-3 -right-2">
-              <p className="text-base">14</p>
-            </div>
-          </div>
-          <div>
-            {user?._id ? (
-              <button
-                onClick={handleLogout}
-                className="px-3 py-1 font-bold rounded-full hover:bg-red-700 bg-red-500"
-              >
-                Logout
-              </button>
-            ) : (
-              <Link
-                to="/login"
-                className="px-3 py-1 font-bold rounded-full hover:bg-red-700 bg-red-500"
-              >
-                Login
-              </Link>
-            )}
-          </div>
-        </div>
-      </div>
-      {/* <BannerProduct />  Include BannerProduct component */}
-    </header>
-  );
-}

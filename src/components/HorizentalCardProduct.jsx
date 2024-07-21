@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { fetchCategoryWiseProduct } from "../helper/fetchCategoryWiseProduct";
-
+import { Link } from "react-router-dom";
+import { addToCart } from "../helper/addToCart";
 export default function HorizentalCardProduct({ category, heading }) {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -38,7 +39,10 @@ export default function HorizentalCardProduct({ category, heading }) {
               </div>
             ))
           : data.map((product, index) => (
-              <div
+              <Link
+                to={
+                  product?.category + "/single_product_details/" + product?._id
+                }
                 key={product.id || index}
                 className="w-full md:min-w-[300px] min-w-[280px] md:max-w-[300px] max-w-[280px] h-36 bg-white rounded-md shadow-md flex"
               >
@@ -64,11 +68,14 @@ export default function HorizentalCardProduct({ category, heading }) {
                       रु {product?.selling}
                     </p>
                   </div>
-                  <button className=" bg-red-800 hover:bg-red-600 font-medium px-3 py-1 rounded-full text-white">
+                  <button
+                    className=" bg-red-800 hover:bg-red-600 font-medium px-3 py-1 rounded-full text-white"
+                    onClick={(e) => addToCart(e, product?._id)}
+                  >
                     Add to Cart
                   </button>
                 </div>
-              </div>
+              </Link>
             ))}
       </div>
     </div>

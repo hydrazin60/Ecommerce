@@ -46,8 +46,8 @@ input[type="number"] {
 .scrollbar-none::-webkit-scrollbar {
   display: none;
 }
-
-/* loding */
+ 
+  /* loding  scrollbar-none  */
 
 .lds-hourglass,
 .lds-hourglass:after {
