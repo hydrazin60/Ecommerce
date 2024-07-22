@@ -3,11 +3,11 @@ import { fetchCategoryWiseProduct } from "../helper/fetchCategoryWiseProduct";
 import { Link } from "react-router-dom";
 import { addToCart } from "../helper/addToCart";
 
-export default function VerticalCardProduct({ category, heading }) {
+export default function CategoryWiseProductDetails({ category, heading }) {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const loadingList = new Array(13).fill(null);
- 
+
   const fetchData = async () => {
     setLoading(true);
     const categoryProduct = await fetchCategoryWiseProduct(category);
@@ -23,19 +23,19 @@ export default function VerticalCardProduct({ category, heading }) {
     <div className="container mx-auto my-6">
       <h1 className="text-2xl font-bold py-2">{heading}</h1>
 
-      <div className="flex items-center gap-4 md:gap-6 overflow-scroll scrollbar-none">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 overflow-x-auto">
         {loading
           ? loadingList.map((_, index) => (
-              <div className="w-full min-w-[280px]  md:min-w-[320px] max-w-[280px] md:max-w-[320px]  bg-white rounded-sm shadow ">
-                <div className="bg-slate-200 h-48 p-4 min-w-[280px] md:min-w-[145px] flex justify-center items-center animate-pulse"></div>
+              <div key={index} className="w-full min-w-[280px] md:min-w-[320px] bg-white rounded-sm shadow">
+                <div className="bg-slate-200 h-48 p-4 flex justify-center items-center animate-pulse"></div>
                 <div className="p-4 grid gap-3">
                   <h2 className="font-medium text-base md:text-lg text-ellipsis line-clamp-1 text-black p-1 py-2 animate-pulse rounded-full bg-slate-200"></h2>
-                  <p className="capitalize text-slate-500 p-1 animate-pulse rounded-full bg-slate-200  py-2"></p>
+                  <p className="capitalize text-slate-500 p-1 animate-pulse rounded-full bg-slate-200 py-2"></p>
                   <div className="flex gap-3">
-                    <p className="text-red-600 font-medium p-1 animate-pulse rounded-full bg-slate-200 w-full  py-2"></p>
-                    <p className="text-slate-500 line-through p-1 animate-pulse rounded-full bg-slate-200 w-full  py-2"></p>
+                    <p className="text-red-600 font-medium p-1 animate-pulse rounded-full bg-slate-200 w-full py-2"></p>
+                    <p className="text-slate-500 line-through p-1 animate-pulse rounded-full bg-slate-200 w-full py-2"></p>
                   </div>
-                  <button className="text-sm  text-white px-3  rounded-full bg-slate-200  py-2 animate-pulse"></button>
+                  <button className="text-sm text-white px-3 rounded-full bg-slate-200 py-2 animate-pulse"></button>
                 </div>
               </div>
             ))
@@ -45,9 +45,9 @@ export default function VerticalCardProduct({ category, heading }) {
                   product?.category + "/single_product_details/" + product?._id
                 }
                 key={product.id || index}
-                className="w-32 md:min-w-[300px] min-w-[280px] md:max-w-[300px] max-w-[280px] bg-white rounded-md shadow-md"
+                className="w-full min-w-[280px] md:min-w-[300px] bg-white rounded-md shadow-md"
               >
-                <div className="bg-gray-400 h-44 p-2 min-w-[280px] md:min-w-[145px] flex justify-center items-center">
+                <div className="bg-gray-400 h-44 p-2 flex justify-center items-center">
                   <img
                     src={product.productImage[0]}
                     alt={product.name}
@@ -81,7 +81,4 @@ export default function VerticalCardProduct({ category, heading }) {
       </div>
     </div>
   );
-  
 }
-
- 
