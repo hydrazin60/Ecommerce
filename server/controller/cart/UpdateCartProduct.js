@@ -1,27 +1,3 @@
-// import AddToCartModel from "../../models/cartProduct.model.js";
-
-// export const updateAddToCartProduct = async (req, res) => {
-//   try {
-//     const CurrentUserId = req.user;
-//     const addToCartProduct = req.body._id;
-//     const quentity = req.body.quantity;
-
-//     const updateProduct = await AddToCartModel.updateOne(addToCartProduct, {
-//       ...(qunentity && { quantity: quentity }),
-//     });
-//     res.json({
-//       message: "Product update successfully",
-//       success: true,
-//       data: updateProduct,
-//     });
-//   } catch (error) {
-//     res.status(500).json({
-//       message: error.message || "Internal server error",
-//       success: false,
-//     });
-//   }
-// };
-
 import AddToCartModel from "../../models/cartProduct.model.js";
 
 export const updateAddToCartProduct = async (req, res) => {
