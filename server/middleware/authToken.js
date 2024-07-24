@@ -8,7 +8,7 @@ async function authToken(req, res, next) {
     if (!token) {
       return res.status(401).json({
         success: false,
-        message: "No token provided",
+        message: "Plight Login first",
       });
     }
 
@@ -26,7 +26,7 @@ async function authToken(req, res, next) {
           message: "Invalid token",
         });
       }
-     req.user = decoded
+      req.user = decoded;
 
       next();
     });
@@ -39,4 +39,3 @@ async function authToken(req, res, next) {
 }
 
 export default authToken;
- 
